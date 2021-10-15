@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      body,
+      .container {
+        background: rgba(255, 0, 0, 0.349);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+    </style>
+    <title>Document</title>
+  </head>
+  <body>
+    <h1 class="title">GIF Search</h1>
+    <div class="container">
+      <img src="#" alt="" />
+      <form action="">
+        <input type="search" name="gif" id="gif" />
+        <button class="btn">New GIF</button>
+      </form>
+    </div>
+
+    <script>
+      const img = document.querySelector("img");
+      const btn = document.querySelector(".btn");
+      const search = document.querySelector("input[search]");
+
+      btn.addEventListener("click", (e) => {
+        e.preventDefault();
+        let search = e.target.form[0].value;
+        getNewGif(search);
+      });
+
+      getNewGif();
+
+      function getNewGif(search) {
+        fetch(
+          `https://api.giphy.com/v1/gifs/translate?api_key=ebhDNFOW4jhB013LslRNdfnRLwaxcLdt&s=${search}`,
+          {
+            mode: "cors",
+          }
+        )
+          .then(function (res) {
+            return res.json();
+          })
+          .then(function (res) {
+            img.src = res.data.images.original.url;
+          })
+          .catch(function (err) {
+            console.log(err);
+            img.src =
+              "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_960_720.jpg";
+          });
+      }
+    </script>
+  </body>
+</html>
